@@ -83,7 +83,7 @@ int parent(float* mf, int* sig) {
             get_return = read_float(&num);
             if (get_return == RF_INVALID) {
                 perror("invalid num");
-                continue;
+                break;
             }
             mf[it + 1] = num;
             it++;
@@ -93,6 +93,8 @@ int parent(float* mf, int* sig) {
         }
         if (get_return == RF_EOF) {
             break;
+        } else if (get_return == RF_INVALID) {
+            continue;
         }
         mf[0] = it;
         *sig = PARENT_BLOCKED;
