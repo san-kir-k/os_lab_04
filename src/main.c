@@ -75,11 +75,11 @@ int child(char* file_name, float* mf, int* sig) {
 }
 
 int parent(float* mf, int* sig) {
-    int get_return;
-    float num;
+    int get_return = RF_VALID;
     while (true) {
         int it = 0;
         while (true) {
+            float num;
             get_return = read_float(&num);
             if (get_return == RF_INVALID) {
                 perror("invalid num");
@@ -116,8 +116,8 @@ int parent(float* mf, int* sig) {
 }
 
 int main() {
-    char file_name[256];
-    scanf("%s", file_name);
+    char file_name[BUF_SIZE];
+    read_file_name(file_name);
     float* mf = (float*)mmap(NULL, PAGESIZE, PROT_READ | PROT_WRITE , MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     if (mf == MAP_FAILED) {
         perror("mmap error");

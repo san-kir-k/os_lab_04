@@ -57,3 +57,12 @@ int read_float(float* n) {
         return RF_VALID;
     }
 }
+
+void read_file_name(char file_name[BUF_SIZE]) {
+    char ch;
+    int count = 0;
+    while (read(0, &ch, 1) > 0 && ch != '\n') {
+        file_name[count++] = ch;
+    }
+    file_name[count] = '\0';
+}
