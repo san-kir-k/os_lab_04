@@ -26,6 +26,7 @@
 #define PARENT_BLOCKED 1
 #define KILL 2
 
+#define OK 0
 #define FILE_OPEN_ERR 1
 #define FORK_ERR 2
 #define MMAP_ERR 3
@@ -33,13 +34,14 @@
 #define NULL_DIV 5
 
 int mmap_clear(float* mf, int* sig) {
+    int to_return = OK;
     if (munmap(mf, PAGESIZE) == -1) {
-        return MMAP_ERR;
+        to_return = MMAP_ERR;
     }
     if (munmap(sig, sizeof(int)) == -1) {
-        return MMAP_ERR;
+        to_return = MMAP_ERR;
     }
-    return 0;
+    return to_return;
 }
 
 int child(char* file_name, float* mf, int* sig) {
@@ -71,7 +73,7 @@ int child(char* file_name, float* mf, int* sig) {
         perror("unable to close file");
         exit(CLOSE_FILE_ERR);
     }
-    exit(0);
+    exit(OK);
 }
 
 int parent(float* mf, int* sig) {
@@ -112,7 +114,7 @@ int parent(float* mf, int* sig) {
         perror("munmap error");
         exit(MMAP_ERR);
     }
-    exit(0);
+    exit(OK);
 }
 
 int main() {
